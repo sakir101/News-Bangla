@@ -1,0 +1,16 @@
+.nav-link:hover{
+    text-decoration-line: underline;
+  text-decoration-style: solid;
+  text-decoration-color: blueviolet;
+  text-decoration-thickness: 2px;
+  
+    
+}
+
+.news-p:hover{
+    background-color: blueviolet;
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
