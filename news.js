@@ -4,7 +4,7 @@ const newsHeadingLoad = async () => {
     try {
         const res = await fetch('https://openapi.programming-hero.com/api/news/categories');
         const data = await res.json();
-        
+
         newsHeadShow(data.data.news_category);
     } catch (err) {
         console.log("Error found");
@@ -14,7 +14,6 @@ const newsHeadingLoad = async () => {
 const newsHeadShow = (elements) => {
     const newsHeading = document.getElementById('news-heading');
     elements.forEach(element => {
-        
         const newsHeading1 = document.createElement('div');
         newsHeading1.classList.add('news-p');
         // console.log(element)
@@ -28,31 +27,31 @@ const newsHeadShow = (elements) => {
 newsHeadingLoad();
 
 
-const newsContainer = async (search,x) => {
+const newsContainer = async (search, x) => {
     try {
         const res = await fetch(`https://openapi.programming-hero.com/api/news/category/${search}`);
         const data = await res.json();
         // console.log(data);
-        sortNews(data.data,x);
+        sortNews(data.data, x);
     } catch (err) {
         console.log("Error Found");
     }
 }
 
-const sortNews = (data,x) => {
+const sortNews = (data, x) => {
     if (data.length === 0) {
         totalNews(data.length)
         loadSpinner(0)
         console.log("no data")
         const newsContainer1 = document.getElementById('news-container');
-        newsContainer1.innerHTML=``;
+        newsContainer1.innerHTML = ``;
         const newsFound = document.getElementById('news-found');
         newsFound.classList.remove('d-none');
     }
 
     else {
         const newsFound = document.getElementById('news-found');
-        totalNews(data.length,x)
+        totalNews(data.length, x)
         newsFound.classList.add('d-none');
         for (let j = 1; j < data.length; j++) {
             for (let i = 0; i <= (data.length - 2); i++) {
@@ -65,7 +64,7 @@ const sortNews = (data,x) => {
         }
         // console.log(data);
         const newsContainer = document.getElementById('news-container');
-        newsContainer.innerHTML=``;
+        newsContainer.innerHTML = ``;
         data.forEach(element => {
             const newsDiv = document.createElement('div')
             newsDiv.innerHTML = `
@@ -77,7 +76,7 @@ const sortNews = (data,x) => {
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title">${element.title}</h5>
-                <p class="card-text">${element.details.length>200 ? element.details.slice(0,400) : element.details }...</p>
+                <p class="card-text">${element.details.length > 200 ? element.details.slice(0, 400) : element.details}...</p>
                 <div class="d-lg-flex d-sm-flex flex-lg-row flex-sm-column justify-content-between mt-4 align-items-center">
                     <div class="d-flex align-items-center my-4">
                         <div class="me-3">
@@ -123,14 +122,14 @@ const sortNews = (data,x) => {
 
 const loadSpinner = (x) => {
     const load = document.getElementById('spinner');
-    
+
     if (x == 1) {
-        
-        
-        
-            
-            load.classList.remove('d-none')
-        
+
+
+
+
+        load.classList.remove('d-none')
+
 
     }
     else {
@@ -138,14 +137,14 @@ const loadSpinner = (x) => {
     }
 }
 
-const totalNews = (total, category) =>{
+const totalNews = (total, category) => {
     const totalInput = document.getElementById('total-news');
-    if(total!=0){
-        
-    totalInput.classList.remove('d-none');
-    totalInput.value=`${total} items found for ${category}`;
+    if (total != 0) {
+
+        totalInput.classList.remove('d-none');
+        totalInput.value = `${total} items found for ${category}`;
     }
-    else{
+    else {
         totalInput.classList.add('d-none');
     }
 
