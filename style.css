@@ -14,3 +14,7 @@
     border-radius: 5px;
     cursor: pointer;
 }
+
+.background{
+    background-color: rgb(216, 231, 231);
+}
