@@ -17,7 +17,7 @@ const newsHeadShow = (elements) => {
         newsHeading1.classList.add('news-p');
         console.log(element)
         newsHeading1.innerHTML = `
-        <p onclick ="newsContainer('${element.category_id}')">${element.category_name}</p>
+        <p onclick ="newsContainer('${element.category_id}'), loadSpinner(1)">${element.category_name}</p>
         `
         newsHeading.appendChild(newsHeading1);
     });
@@ -39,6 +39,7 @@ const newsContainer = async (search) => {
 
 const sortNews = (data) => {
     if (data.length === 0) {
+        loadSpinner(0)
         console.log("no data")
         const newsContainer1 = document.getElementById('news-container');
         newsContainer1.innerHTML=``;
@@ -73,8 +74,8 @@ const sortNews = (data) => {
               <div class="card-body">
                 <h5 class="card-title">${element.title}</h5>
                 <p class="card-text">${element.details.length>200 ? element.details.slice(0,400) : element.details }...</p>
-                <div class="d-flex justify-content-between mt-4 align-items-center">
-                    <div class="d-flex align-items-center">
+                <div class="d-lg-flex d-sm-flex flex-lg-row flex-sm-column justify-content-between mt-4 align-items-center">
+                    <div class="d-flex align-items-center my-4">
                         <div class="me-3">
                             <img src ="${element.author.img ? element.author.img : `No Image Found`} class="img-fluid" style="height:50px; width:50; border-radius: 50%">
                         </div>
@@ -85,17 +86,17 @@ const sortNews = (data) => {
                                                    
                         </div>
                     </div>
-                    <div>
+                    <div class="my-4">
                     <i class="fa-solid fa-eye me-3"></i>
                     <span class="text-primary fw-bold">${element.total_view}</span>
                     
                     </div>
-                    <div>
+                    <div class="my-4">
                         <span class="me-4">${element.rating.number}</span
                         <span>${element.rating.badge}</span>
                     </div>
 
-                    <div>
+                    <div class="my-4">
                         <buuton class="btn btn-primary">Show Detail</button>
                     </div>
                 </div>
@@ -106,9 +107,27 @@ const sortNews = (data) => {
         </div>
             `
             newsContainer.appendChild(newsDiv);
+            loadSpinner(0)
         });
     }
 
 
 
+}
+
+const loadSpinner = (x) => {
+    const load = document.getElementById('spinner');
+    
+    if (x == 1) {
+        
+        
+        
+            
+            load.classList.remove('d-none')
+        
+
+    }
+    else {
+        load.classList.add('d-none');
+    }
 }
