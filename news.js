@@ -62,10 +62,11 @@ const sortNews = (data, x) => {
                 }
             }
         }
-        // console.log(data);
+        
         const newsContainer = document.getElementById('news-container');
         newsContainer.innerHTML = ``;
         data.forEach(element => {
+            // console.log(element);
             const newsDiv = document.createElement('div')
             newsDiv.innerHTML = `
         <div class="card mb-3">
@@ -91,7 +92,7 @@ const sortNews = (data, x) => {
                     </div>
                     <div class="my-4">
                     <i class="fa-solid fa-eye me-3"></i>
-                    <span class="text-primary fw-bold">${element.total_view}</span>
+                    <span class="text-primary fw-bold">${element.total_view ? element.total_view: 'No Viewers'}</span>
                     
                     </div>
                     <div class="my-4">
@@ -100,7 +101,9 @@ const sortNews = (data, x) => {
                     </div>
 
                     <div class="my-4">
-                        <buuton class="btn btn-primary">Show Detail</button>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick = "modalData('${element._id}')">
+                    Show Details
+                  </button>
                     </div>
                 </div>
                 
@@ -124,13 +127,7 @@ const loadSpinner = (x) => {
     const load = document.getElementById('spinner');
 
     if (x == 1) {
-
-
-
-
         load.classList.remove('d-none')
-
-
     }
     else {
         load.classList.add('d-none');
@@ -148,5 +145,55 @@ const totalNews = (total, category) => {
         totalInput.classList.add('d-none');
     }
 
+}
+
+const modalData = async (searchID) =>{
+    try {
+        const res = await fetch(`https://openapi.programming-hero.com/api/news/${searchID}`);
+        const data = await res.json();
+
+        modalDisplay(data.data);
+    } catch (err) {
+        console.log("Error found");
+    }
+}
+
+const modalDisplay= (element) =>{
+    console.log(element);
+    const modalInfo = document.getElementById('modal-info');
+    modalInfo.innerHTML = `
+        <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">${element[0].title}</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <p>${element[0].details}</p>
+              <hr>
+              <div class="d-flex align-items-center justify-content-around">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                    <img src ="${element[0].author.img ? element[0].author.img : `No Image Found`}          class="img-fluid" style="height:50px; width:50; border-radius: 50%">
+                    </div>
+                  <div>
+                    ${element[0].author.name ? element[0].author.name : `No Name Found`}
+                     <br>
+                    ${element[0].author.published_date ? element[0].author.published_date : `No Published date  found`}
+                                 
+                    </div>
+                </div>
+
+                <div>
+                    <i class="fa-solid fa-eye me-3"></i>
+                    <span class="text-primary fw-bold">${element[0].total_view ? element[0].total_view: 'No Viewers'}</span>
+                </div>
+                
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+    `
 }
 
