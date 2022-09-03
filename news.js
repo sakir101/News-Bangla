@@ -1,10 +1,7 @@
-let sortArr = [];
-
 const newsHeadingLoad = async () => {
     try {
         const res = await fetch('https://openapi.programming-hero.com/api/news/categories');
         const data = await res.json();
-
         newsHeadShow(data.data.news_category);
     } catch (err) {
         console.log("Error found");
@@ -16,10 +13,8 @@ const newsHeadShow = (elements) => {
     elements.forEach(element => {
         const newsHeading1 = document.createElement('div');
         newsHeading1.classList.add('news-p');
-        // console.log(element)
         newsHeading1.innerHTML = `
-        <p onclick ="newsContainer('${element.category_id}', '${element.category_name}'), loadSpinner(1)">${element.category_name}</p>
-        `
+        <p onclick ="newsContainer('${element.category_id}', '${element.category_name}'), loadSpinner(1)">${element.category_name}</p>`
         newsHeading.appendChild(newsHeading1);
     });
 }
@@ -31,7 +26,6 @@ const newsContainer = async (search, x) => {
     try {
         const res = await fetch(`https://openapi.programming-hero.com/api/news/category/${search}`);
         const data = await res.json();
-        // console.log(data);
         sortNews(data.data, x);
     } catch (err) {
         console.log("Error Found");
@@ -62,11 +56,9 @@ const sortNews = (data, x) => {
                 }
             }
         }
-        
         const newsContainer = document.getElementById('news-container');
         newsContainer.innerHTML = ``;
         data.forEach(element => {
-            // console.log(element);
             const newsDiv = document.createElement('div')
             newsDiv.innerHTML = `
         <div class="card mb-3">
@@ -92,7 +84,7 @@ const sortNews = (data, x) => {
                     </div>
                     <div class="my-4">
                     <i class="fa-solid fa-eye me-3"></i>
-                    <span class="text-primary fw-bold">${element.total_view ? element.total_view: 'No Viewers'}</span>
+                    <span class="text-primary fw-bold">${element.total_view ? element.total_view : 'No Viewers'}</span>
                     
                     </div>
                     <div class="my-4">
@@ -137,7 +129,6 @@ const loadSpinner = (x) => {
 const totalNews = (total, category) => {
     const totalInput = document.getElementById('total-news');
     if (total != 0) {
-
         totalInput.classList.remove('d-none');
         totalInput.value = `${total} items found for ${category}`;
     }
@@ -147,21 +138,19 @@ const totalNews = (total, category) => {
 
 }
 
-const modalData = async (searchID) =>{
+const modalData = async (searchID) => {
     try {
         const res = await fetch(`https://openapi.programming-hero.com/api/news/${searchID}`);
         const data = await res.json();
-
         modalDisplay(data.data);
     } catch (err) {
         console.log("Error found");
     }
 }
 
-const modalDisplay= (element) =>{
-    console.log(element);
+const modalDisplay = (element) => {
     const modalInfo = document.getElementById('modal-info');
-    modalInfo.innerHTML = `
+    modalInfo.innerHTML = `    
         <div class="modal-content">
             <div class="modal-header">
               <h5 class="modal-title" id="exampleModalLabel">${element[0].title}</h5>
@@ -185,7 +174,7 @@ const modalDisplay= (element) =>{
 
                 <div>
                     <i class="fa-solid fa-eye me-3"></i>
-                    <span class="text-primary fw-bold">${element[0].total_view ? element[0].total_view: 'No Viewers'}</span>
+                    <span class="text-primary fw-bold">${element[0].total_view ? element[0].total_view : 'No Viewers'}</span>
                 </div>
                 
               </div>
